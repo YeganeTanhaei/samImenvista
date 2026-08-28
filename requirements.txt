@@ -1,4 +1,7 @@
+asgiref==3.12.1
 Django==6.1
 django-crispy-forms==2.7
-Pillow==12.3.0
-python-dotenv
+gunicorn==26.2.0
+pillow==12.3.0
+python-dotenv==1.2.3
+sqlparse==0.5.5
