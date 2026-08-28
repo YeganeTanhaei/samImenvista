@@ -1,0 +1,489 @@
+{% extends 'base.html' %}
+{% load crispy_forms_filters %}
+
+{% block style %}
+    <style>
+        /* ===== RESET & BASE FIX ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            overscroll-behavior: auto;
+            position: relative;
+            background: #f7f9fc;
+            font-family: 'Vazirmatn', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        .pt-safe {
+            padding-top: env(safe-area-inset-top, 0px);
+        }
+
+        /* Hide scrollbar but keep scroll functionality */
+        ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+            background: transparent;
+            display: none;
+        }
+
+        /* Firefox scrollbar hide */
+        * {
+            scrollbar-width: none;
+        }
+
+        /* Ensure main content area can scroll */
+        main {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            width: 100%;
+            padding-top: 64px;
+            padding-bottom: 80px;
+            background: #f7f9fc;
+            min-height: 100vh;
+        }
+
+        @media (min-width: 768px) {
+            main {
+                padding-bottom: 20px;
+            }
+        }
+
+        /* Fix for Safari and Chrome differences */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        /* ===== REGISTER FORM STYLES ===== */
+        .register-form .form-group {
+            margin-bottom: 16px;
+        }
+
+        .register-form .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #191c1e;
+            margin-bottom: 6px;
+        }
+
+        .register-form .form-group .input-wrapper {
+            position: relative;
+        }
+
+        .register-form .form-group .input-wrapper .icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #5b403d;
+            font-size: 22px;
+            pointer-events: none;
+        }
+
+        .register-form .form-group input[type="text"],
+        .register-form .form-group input[type="password"],
+        .register-form .form-group input[type="email"] {
+            width: 100%;
+            height: 52px;
+            padding-right: 48px;
+            padding-left: 14px;
+            font-size: 16px;
+            border: 1px solid #e4beba;
+            border-radius: 12px;
+            outline: none;
+            background: #f7f9fc;
+            color: #191c1e;
+            transition: all 0.2s;
+            text-align: right;
+        }
+
+        .register-form .form-group input:focus {
+            box-shadow: 0 0 0 2px rgba(175, 16, 26, 0.3);
+            border-color: transparent;
+            background: #ffffff;
+        }
+
+        .register-form .form-group input::placeholder {
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+
+        .register-form .errorlist {
+            list-style: none;
+            padding: 0;
+            margin: 4px 0 0;
+            color: #ba1a1a;
+            font-size: 12px;
+        }
+
+        .register-form .errorlist li {
+            padding: 2px 0;
+        }
+
+        .btn-submit {
+            width: 100%;
+            height: 52px;
+            background: #af101a;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-submit:hover {
+            background: #930010;
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        .btn-submit .material-symbols-outlined {
+            font-size: 22px;
+        }
+
+        .register-link {
+            text-align: center;
+            padding-top: 16px;
+            margin-top: 8px;
+            border-top: 1px solid rgba(228, 190, 186, 0.3);
+        }
+
+        .register-link span {
+            font-size: 15px;
+            color: #5b403d;
+        }
+
+        .register-link a {
+            font-size: 14px;
+            font-weight: 700;
+            color: #af101a;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            color: #d32f2f;
+            text-decoration: underline;
+        }
+
+        .toggle-pass {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #5b403d;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 20px;
+        }
+
+        .toggle-pass:hover {
+            color: #191c1e;
+        }
+    </style>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed-dim": "#ffb3ac",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffe170",
+                        "surface-tint": "#ba1a20",
+                        "primary": "#af101a",
+                        "primary-container": "#d32f2f",
+                        "on-primary-container": "#fff2f0",
+                        "on-primary-fixed": "#410003",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#101c2b",
+                        "surface-bright": "#f7f9fc",
+                        "primary-fixed": "#ffdad6",
+                        "secondary-container": "#d4e1f5",
+                        "on-secondary-container": "#576474",
+                        "surface-container-highest": "#e0e3e6",
+                        "surface-dim": "#d8dadd",
+                        "on-surface-variant": "#5b403d",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f7",
+                        "secondary-fixed": "#d7e3f7",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#ffb3ac",
+                        "error": "#ba1a1a",
+                        "secondary": "#535f70",
+                        "secondary-fixed-dim": "#bbc7db",
+                        "outline-variant": "#e4beba",
+                        "tertiary-container": "#caa900",
+                        "tertiary-fixed-dim": "#e9c400",
+                        "background": "#f7f9fc",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f7f9fc",
+                        "on-surface": "#191c1e",
+                        "outline": "#8f6f6c",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f4",
+                        "surface-container-high": "#e6e8eb",
+                        "on-tertiary-fixed-variant": "#544600",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#221b00",
+                        "on-tertiary-container": "#4c3f00",
+                        "on-secondary-fixed-variant": "#3c4858",
+                        "surface-variant": "#e0e3e6",
+                        "surface-container": "#eceef1",
+                        "tertiary": "#705d00",
+                        "on-primary-fixed-variant": "#930010"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        base: "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        gutter: "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "margin-desktop": "48px",
+                        "stack-md": "16px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Vazirmatn"],
+                        "headline-lg-mobile": ["Vazirmatn"],
+                        "headline-md": ["Vazirmatn"],
+                        "label-lg": ["Vazirmatn"],
+                        "body-lg": ["Vazirmatn"],
+                        "headline-lg": ["Vazirmatn"],
+                        "body-md": ["Vazirmatn"],
+                        "label-md": ["Vazirmatn"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", {"lineHeight": "64px", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <main class="flex flex-col relative w-full">
+        <div class="flex flex-col w-full min-h-screen items-center justify-center px-4 py-8">
+            <div class="w-full max-w-md bg-white rounded-xl shadow-md p-6 flex flex-col items-center">
+
+                <!-- Logo -->
+                <div class="w-24 h-24 mb-4">
+                    <img alt="سام ایمن ویستا" class="w-full h-full object-contain"
+                         src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl6aolTzUcfT3UorPYXQwETcylmUJG16smhdI7-30iKrZL5SnHZsuLCSaM7oNFk4TSoalx-GKp8aklaOu89dhkT5kcKvMfpes1otUmJS-XuG-YOh2aITGhQ8zSLzRCw4nFgpqWRsFA0ImrA0L1RBSw7E9voqVjUYU7mN69-zPtXfMFrWrX0_WQwMYDIRJvU91KqUpONRrJiYG8TpsZjGZ5HYm3uT7lx0wluNUEGh0QJJNoZGnwoxyfwQ"/>
+                </div>
+
+                <h1 class="text-headline-md text-on-surface text-center">ثبت‌نام در سامانه</h1>
+                <p class="text-body-md text-on-surface-variant text-center mb-4">سامانه مدیریت ماشین‌آلات سنگین سام ایمن ویستا</p>
+
+                <!-- Form -->
+                <form method="post" novalidate class="register-form w-full">
+                    {% csrf_token %}
+
+                    <!-- فیلد نام کاربری -->
+                    <div class="form-group">
+                        <label for="id_user_name">نام کاربری</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">person</span>
+                            <input type="text" name="user_name" id="id_user_name"
+                                   placeholder="نام کاربری خود را وارد کنید"
+                                   value="{{ form_register.user_name.value|default:'' }}">
+                        </div>
+                        {% if form_register.user_name.errors %}
+                            <ul class="errorlist">
+                                {% for error in form_register.user_name.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <!-- فیلد ایمیل -->
+                    <div class="form-group">
+                        <label for="id_email">ایمیل</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">mail</span>
+                            <input type="email" name="email" id="id_email"
+                                   placeholder="example@mail.com"
+                                   value="{{ form_register.email.value|default:'' }}">
+                        </div>
+                        {% if form_register.email.errors %}
+                            <ul class="errorlist">
+                                {% for error in form_register.email.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <!-- فیلد نام -->
+                    <div class="form-group">
+                        <label for="id_first_name">نام</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">badge</span>
+                            <input type="text" name="first_name" id="id_first_name"
+                                   placeholder="نام خود را وارد کنید"
+                                   value="{{ form_register.first_name.value|default:'' }}">
+                        </div>
+                        {% if form_register.first_name.errors %}
+                            <ul class="errorlist">
+                                {% for error in form_register.first_name.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <!-- فیلد نام خانوادگی -->
+                    <div class="form-group">
+                        <label for="id_last_name">نام خانوادگی</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">badge</span>
+                            <input type="text" name="last_name" id="id_last_name"
+                                   placeholder="نام خانوادگی خود را وارد کنید"
+                                   value="{{ form_register.last_name.value|default:'' }}">
+                        </div>
+                        {% if form_register.last_name.errors %}
+                            <ul class="errorlist">
+                                {% for error in form_register.last_name.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <!-- فیلد رمز عبور -->
+                    <div class="form-group">
+                        <label for="id_password1">رمز عبور</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">lock</span>
+                            <input type="password" name="password1" id="id_password1"
+                                   placeholder="رمز عبور خود را وارد کنید">
+                            <button class="toggle-pass" onclick="togglePassword('id_password1')" type="button">
+                                <span class="material-symbols-outlined">visibility_off</span>
+                            </button>
+                        </div>
+                        {% if form_register.password1.errors %}
+                            <ul class="errorlist">
+                                {% for error in form_register.password1.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <!-- فیلد تکرار رمز عبور -->
+                    <div class="form-group">
+                        <label for="id_password2">تکرار رمز عبور</label>
+                        <div class="input-wrapper">
+                            <span class="material-symbols-outlined icon">lock</span>
+                            <input type="password" name="password2" id="id_password2"
+                                   placeholder="رمز عبور را مجدداً وارد کنید">
+                            <button class="toggle-pass" onclick="togglePassword('id_password2')" type="button">
+                                <span class="material-symbols-outlined">visibility_off</span>
+                            </button>
+                        </div>
+                        {% if form_register.password2.errors %}
+                            <ul class="errorlist">
+                                {% for error in form_register.password2.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+
+                    <!-- خطاهای غیرمرتبط با فیلد -->
+                    {% if form_register.non_field_errors %}
+                        <ul class="errorlist">
+                            {% for error in form_register.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <!-- دکمه ارسال -->
+                    <button class="btn-submit" type="submit">
+                        ثبت‌نام در پنل کاربری
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                </form>
+
+                <!-- Login Link -->
+                <div class="register-link">
+                    <span>قبلاً ثبت‌نام کرده‌اید؟</span>
+                    <a href="{% url 'user-login' %}">ورود به سایت</a>
+                </div>
+
+            </div>
+        </div>
+        <br><br>
+    </main>
+
+    <script>
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.parentElement.querySelector('.toggle-pass .material-symbols-outlined');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility_off';
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,571 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+          rel="stylesheet"/>
+    <style>
+        /* ===== RESET & BASE FIX ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            overscroll-behavior: auto;
+            position: relative;
+            background: #f7f9fc;
+            font-family: 'Vazirmatn', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        .pt-safe {
+            padding-top: env(safe-area-inset-top, 0px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+            background: transparent;
+            display: none;
+        }
+
+        * {
+            scrollbar-width: none;
+        }
+
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        /* ===== MAIN ===== */
+        main {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            width: 100%;
+            padding-top: 64px;
+            padding-bottom: 80px;
+            background: #f7f9fc;
+            min-height: 100vh;
+        }
+
+        @media (min-width: 768px) {
+            main {
+                padding-bottom: 20px;
+            }
+        }
+
+        /* ===== FORM STYLES ===== */
+        .logout-form .form-group {
+            margin-bottom: 18px;
+        }
+
+        .logout-form .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #191c1e;
+            margin-bottom: 6px;
+        }
+
+        .logout-form .form-group .input-wrapper {
+            position: relative;
+        }
+
+        .logout-form .form-group .input-wrapper .icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #5b403d;
+            font-size: 22px;
+            pointer-events: none;
+        }
+
+        .logout-form .form-group input[type="text"],
+        .logout-form .form-group input[type="password"] {
+            width: 100%;
+            height: 52px;
+            padding-right: 48px;
+            padding-left: 14px;
+            font-size: 16px;
+            border: 1px solid #e4beba;
+            border-radius: 12px;
+            outline: none;
+            background: #f7f9fc;
+            color: #191c1e;
+            transition: all 0.2s;
+            text-align: right;
+        }
+
+        .logout-form .form-group input:focus {
+            box-shadow: 0 0 0 2px rgba(175, 16, 26, 0.3);
+            border-color: transparent;
+            background: #ffffff;
+        }
+
+        .logout-form .form-group input::placeholder {
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+
+        .logout-form .errorlist {
+            list-style: none;
+            padding: 0;
+            margin: 4px 0 0;
+            color: #ba1a1a;
+            font-size: 12px;
+        }
+
+        .logout-form .errorlist li {
+            padding: 2px 0;
+        }
+
+        .btn-logout {
+            width: 100%;
+            height: 52px;
+            background: #dc3545;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+
+        .btn-logout:hover {
+            background: #c82333;
+        }
+
+        .btn-logout:active {
+            transform: scale(0.98);
+        }
+
+        .btn-logout:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-logout .spinner {
+            display: none;
+            animation: spin 1s linear infinite;
+        }
+
+        .btn-logout.loading .btn-text,
+        .btn-logout.loading .btn-icon {
+            display: none;
+        }
+
+        .btn-logout.loading .spinner {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .cancel-link {
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+            font-size: 14px;
+            color: #5b403d;
+            text-decoration: none;
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .cancel-link:hover {
+            color: #af101a;
+            background: #f2f4f7;
+        }
+
+        .warning-text {
+            text-align: center;
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* ===== BG CLASSES ===== */
+        .bg-background {
+            background-color: #f7f9fc;
+        }
+        .bg-surface {
+            background-color: #f7f9fc;
+        }
+        .bg-surface-container {
+            background-color: #eceef1;
+        }
+        .bg-surface-container-high {
+            background-color: #e6e8eb;
+        }
+        .bg-primary-fixed-dim {
+            background-color: #ffb3ac;
+        }
+        .text-on-surface {
+            color: #191c1e;
+        }
+        .text-on-surface-variant {
+            color: #5b403d;
+        }
+        .rounded-2xl {
+            border-radius: 16px;
+        }
+        .shadow-xl {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .shadow-sm {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        .blur-3xl {
+            filter: blur(64px);
+            -webkit-filter: blur(64px);
+        }
+        .-skew-y-6 {
+            transform: skewY(-6deg);
+            -webkit-transform: skewY(-6deg);
+        }
+        .origin-top-right {
+            transform-origin: top right;
+            -webkit-transform-origin: top right;
+        }
+        .-z-10 {
+            z-index: -10;
+        }
+        .opacity-50 {
+            opacity: 0.5;
+        }
+        .opacity-20 {
+            opacity: 0.2;
+        }
+        .border-red-500 {
+            border-color: #ef4444 !important;
+        }
+        .max-w-sm {
+            max-width: 384px;
+        }
+        .w-full {
+            width: 100%;
+        }
+        .flex {
+            display: flex;
+        }
+        .flex-col {
+            flex-direction: column;
+        }
+        .flex-grow {
+            flex-grow: 1;
+        }
+        .justify-center {
+            justify-content: center;
+        }
+        .items-center {
+            align-items: center;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .relative {
+            position: relative;
+        }
+        .absolute {
+            position: absolute;
+        }
+        .top-0 {
+            top: 0;
+        }
+        .right-0 {
+            right: 0;
+        }
+        .bottom-0 {
+            bottom: 0;
+        }
+        .left-0 {
+            left: 0;
+        }
+        .px-4 {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+        .py-8 {
+            padding-top: 32px;
+            padding-bottom: 32px;
+        }
+        .p-6 {
+            padding: 24px;
+        }
+        .gap-6 {
+            gap: 24px;
+        }
+        .gap-2 {
+            gap: 8px;
+        }
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+        .w-20 {
+            width: 80px;
+        }
+        .h-20 {
+            height: 80px;
+        }
+        .h-64 {
+            height: 256px;
+        }
+        .w-32 {
+            width: 128px;
+        }
+        .h-32 {
+            height: 128px;
+        }
+        .object-contain {
+            object-fit: contain;
+        }
+        .rounded-full {
+            border-radius: 9999px;
+        }
+        .overflow-hidden {
+            overflow: hidden;
+        }
+        .min-h-screen {
+            min-height: 100vh;
+        }
+        .min-h-[600px] {
+            min-height: 600px;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed-dim": "#ffb3ac",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffe170",
+                        "surface-tint": "#ba1a20",
+                        "primary": "#af101a",
+                        "primary-container": "#d32f2f",
+                        "on-primary-container": "#fff2f0",
+                        "on-primary-fixed": "#410003",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#101c2b",
+                        "surface-bright": "#f7f9fc",
+                        "primary-fixed": "#ffdad6",
+                        "secondary-container": "#d4e1f5",
+                        "on-secondary-container": "#576474",
+                        "surface-container-highest": "#e0e3e6",
+                        "surface-dim": "#d8dadd",
+                        "on-surface-variant": "#5b403d",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f7",
+                        "secondary-fixed": "#d7e3f7",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#ffb3ac",
+                        "error": "#ba1a1a",
+                        "secondary": "#535f70",
+                        "secondary-fixed-dim": "#bbc7db",
+                        "outline-variant": "#e4beba",
+                        "tertiary-container": "#caa900",
+                        "tertiary-fixed-dim": "#e9c400",
+                        "background": "#f7f9fc",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f7f9fc",
+                        "on-surface": "#191c1e",
+                        "outline": "#8f6f6c",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f4",
+                        "surface-container-high": "#e6e8eb",
+                        "on-tertiary-fixed-variant": "#544600",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#221b00",
+                        "on-tertiary-container": "#4c3f00",
+                        "on-secondary-fixed-variant": "#3c4858",
+                        "surface-variant": "#e0e3e6",
+                        "surface-container": "#eceef1",
+                        "tertiary": "#705d00",
+                        "on-primary-fixed-variant": "#930010"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        base: "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        gutter: "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "margin-desktop": "48px",
+                        "stack-md": "16px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Vazirmatn"],
+                        "headline-lg-mobile": ["Vazirmatn"],
+                        "headline-md": ["Vazirmatn"],
+                        "label-lg": ["Vazirmatn"],
+                        "body-lg": ["Vazirmatn"],
+                        "headline-lg": ["Vazirmatn"],
+                        "body-md": ["Vazirmatn"],
+                        "label-md": ["Vazirmatn"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", {"lineHeight": "64px", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <main class="flex flex-col relative w-full">
+        <div class="flex flex-col w-full min-h-[600px] bg-background">
+            <div class="flex-grow flex flex-col justify-center items-center px-4 sm:px-margin-mobile py-8 sm:py-stack-lg relative overflow-hidden">
+                <!-- Decorative background elements -->
+                <div class="absolute top-0 right-0 w-full h-64 bg-surface-container-high transform -skew-y-6 origin-top-right -z-10 opacity-50"></div>
+                <div class="absolute bottom-0 left-0 w-32 h-32 bg-primary-fixed-dim rounded-full blur-3xl opacity-20 -z-10"></div>
+
+                <div class="w-full max-w-sm bg-surface rounded-2xl shadow-xl p-6 sm:p-8 flex flex-col gap-6">
+                    <!-- Header Section -->
+                    <div class="flex flex-col items-center gap-2 text-center">
+                        <div class="w-20 h-20 bg-surface-container rounded-2xl flex items-center justify-center mb-2 shadow-sm">
+                            <img alt="لوگوی سام ایمن ویستا" class="w-full h-full object-contain rounded-2xl"
+                                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl6aolTzUcfT3UorPYXQwETcylmUJG16smhdI7-30iKrZL5SnHZsuLCSaM7oNFk4TSoalx-GKp8aklaOu89dhkT5kcKvMfpes1otUmJS-XuG-YOh2aITGhQ8zSLzRCw4nFgpqWRsFA0ImrA0L1RBSw7E9voqVjUYU7mN69-zPtXfMFrWrX0_WQwMYDIRJvU91KqUpONRrJiYG8TpsZjGZ5HYm3uT7lx0wluNUEGh0QJJNoZGnwoxyfwQ"/>
+                        </div>
+                        <h1 class="text-headline-md font-headline-md text-on-surface">خروج از حساب کاربری</h1>
+                        <p class="text-body-md font-body-md text-on-surface-variant max-w-[250px]">آیا از خروج خود اطمینان دارید؟</p>
+                    </div>
+
+                    <!-- ===== Form Section ===== -->
+                    <form method="post" novalidate class="logout-form">
+                        {% csrf_token %}
+
+                        <!-- فیلد نام کاربری -->
+                        <div class="form-group">
+                            <label for="id_username">نام کاربری</label>
+                            <div class="input-wrapper">
+                                <span class="material-symbols-outlined icon">person</span>
+                                <input type="text" name="username" id="id_username"
+                                       placeholder="نام کاربری خود را وارد کنید"
+                                       value="{{ form.username.value|default:'' }}"
+                                       class="{% if form.username.errors %}border-red-500{% endif %}">
+                            </div>
+                            {% if form.username.errors %}
+                                <ul class="errorlist">
+                                    {% for error in form.username.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <!-- فیلد رمز عبور -->
+                        <div class="form-group">
+                            <label for="id_password">رمز عبور</label>
+                            <div class="input-wrapper">
+                                <span class="material-symbols-outlined icon">lock</span>
+                                <input type="password" name="password" id="id_password"
+                                       placeholder="رمز عبور خود را وارد کنید"
+                                       class="{% if form.password.errors %}border-red-500{% endif %}">
+                            </div>
+                            {% if form.password.errors %}
+                                <ul class="errorlist">
+                                    {% for error in form.password.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <!-- خطاهای غیرمرتبط با فیلد -->
+                        {% if form.non_field_errors %}
+                            <ul class="errorlist">
+                                {% for error in form.non_field_errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        <!-- هشدار -->
+                        <p class="warning-text">
+                            <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;">warning</span>
+                            با خروج از حساب، دسترسی شما به پنل کاربری محدود می‌شود.
+                        </p>
+
+                        <!-- دکمه خروج -->
+                        <button class="btn-logout" id="logout-btn" type="submit">
+                            <span class="btn-text">خروج از حساب کاربری</span>
+                            <span class="material-symbols-outlined btn-icon">logout</span>
+                            <svg class="spinner" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" opacity="0.25"/>
+                                <path d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" fill="currentColor" opacity="0.75"/>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <!-- لغو و بازگشت -->
+                    <a class="cancel-link" href="{% url 'index' %}">
+                        <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;">arrow_forward</span>
+                        بازگشت به صفحه اصلی
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // نمایش لودینگ هنگام ارسال فرم
+        document.querySelector('form').addEventListener('submit', function() {
+            const btn = document.getElementById('logout-btn');
+            btn.disabled = true;
+            btn.classList.add('loading');
+        });
+    </script>
+{% endblock %}

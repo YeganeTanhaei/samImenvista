@@ -1,0 +1,358 @@
+{% extends 'base.html' %}
+{% block style %}
+    <style>
+        /* ===== RESET & BASE - FIXED FOR CHROME ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* REMOVED: width:390px, height:1496px, overflow:hidden, position:relative from html */
+        html {
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh; /* dynamic viewport height for mobile */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            overscroll-behavior: auto;
+            position: relative;
+            background: #f7f9fc;
+            font-family: 'Vazirmatn', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        .pt-safe {
+            padding-top: env(safe-area-inset-top, 0px);
+        }
+
+        /* Hide scrollbar but keep scroll functionality */
+        ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+            background: transparent;
+            display: none;
+        }
+
+        /* Firefox scrollbar hide */
+        * {
+            scrollbar-width: none;
+        }
+
+        /* ===== FIX FOR MAIN CONTENT ===== */
+        main {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            padding-top: 64px;
+            padding-bottom: 80px;
+            background: #f7f9fc;
+        }
+
+        /* Safari specific fix */
+        @supports (-webkit-touch-callout: none) {
+            body {
+                min-height: -webkit-fill-available;
+            }
+        }
+
+        /* ===== TAILWIND OVERRIDES ===== */
+        .bg-background {
+            background-color: #f7f9fc;
+        }
+
+        .bg-surface {
+            background-color: #f7f9fc;
+        }
+
+        .bg-surface-container-low {
+            background-color: #f2f4f7;
+        }
+
+        .bg-surface-container {
+            background-color: #eceef1;
+        }
+
+        .bg-surface-container-lowest {
+            background-color: #ffffff;
+        }
+
+        .bg-primary-container {
+            background-color: #d32f2f;
+        }
+
+        .bg-on-secondary-fixed {
+            background-color: #d7e3f7;
+        }
+
+        .bg-surface
+
+        /
+        80
+        {
+            background-color: rgba(247, 249, 252, 0.8)
+        ;
+        }
+
+        .text-on-background {
+            color: #191c1e;
+        }
+
+        .text-on-surface {
+            color: #191c1e;
+        }
+
+        .text-on-surface-variant {
+            color: #5b403d;
+        }
+
+        .text-primary {
+            color: #af101a;
+        }
+
+        .text-primary-fixed {
+            color: #ffdad6;
+        }
+
+        .text-on-primary-container {
+            color: #fff2f0;
+        }
+
+        .text-tertiary-fixed {
+            color: #ffe170;
+        }
+
+        .text-secondary {
+            color: #535f70;
+        }
+
+        .text-secondary-fixed-dim {
+            color: #bbc7db;
+        }
+
+        .border-outline-variant\/30 {
+            border-color: rgba(228, 190, 186, 0.3);
+        }
+
+        .shadow-sm {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .shadow-md {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .shadow-xl {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .backdrop-blur-xl {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .about-content p {
+            margin-bottom: 1rem;
+            line-height: 2;
+        }
+    </style>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#ffb3ac",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffe170",
+                        "surface-tint": "#ba1a20",
+                        "primary": "#af101a",
+                        "primary-container": "#d32f2f",
+                        "on-primary-container": "#fff2f0",
+                        "on-primary-fixed": "#410003",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#101c2b",
+                        "surface-bright": "#f7f9fc",
+                        "primary-fixed": "#ffdad6",
+                        "secondary-container": "#d4e1f5",
+                        "on-secondary-container": "#576474",
+                        "surface-container-highest": "#e0e3e6",
+                        "surface-dim": "#d8dadd",
+                        "on-surface-variant": "#5b403d",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f7",
+                        "secondary-fixed": "#d7e3f7",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#ffb3ac",
+                        "error": "#ba1a1a",
+                        "secondary": "#535f70",
+                        "secondary-fixed-dim": "#bbc7db",
+                        "outline-variant": "#e4beba",
+                        "tertiary-container": "#caa900",
+                        "tertiary-fixed-dim": "#e9c400",
+                        "background": "#f7f9fc",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f7f9fc",
+                        "on-surface": "#191c1e",
+                        "outline": "#8f6f6c",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f4",
+                        "surface-container-high": "#e6e8eb",
+                        "on-tertiary-fixed-variant": "#544600",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#221b00",
+                        "on-tertiary-container": "#4c3f00",
+                        "on-secondary-fixed-variant": "#3c4858",
+                        "surface-variant": "#e0e3e6",
+                        "surface-container": "#eceef1",
+                        "tertiary": "#705d00",
+                        "on-primary-fixed-variant": "#930010"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "margin-desktop": "48px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Vazirmatn"],
+                        "headline-lg-mobile": ["Vazirmatn"],
+                        "headline-md": ["Vazirmatn"],
+                        "label-lg": ["Vazirmatn"],
+                        "body-lg": ["Vazirmatn"],
+                        "headline-lg": ["Vazirmatn"],
+                        "body-md": ["Vazirmatn"],
+                        "label-md": ["Vazirmatn"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "64px", "fontWeight": "800"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "44px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <body class="bg-background font-body-md text-on-background">
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="flex flex-col w-full px-margin-mobile gap-stack-lg pt-stack-md">
+
+            <!-- Hero / Story Section -->
+            <section
+                    class="flex flex-col gap-stack-md relative overflow-hidden rounded-xl bg-surface-container-low shadow-sm">
+                <div class="bg-cover bg-center w-full h-48 sm:h-64 relative"
+                     style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDnMtT_2klN_e49_HUiF183Zl-VU92HrWNClnNgyURRxrCFyLJ4-fLXSoldKQYfemoz8HaBz2SLU_MLzb7ZddiSI6U4K5MpkJIvFXHF_oJPFq_KvtK6RcG_h_n-K_AqR3zoxm5jvvnnVsahIfP8ZLq8oVUb0nikhQBSFjupBc0kMD91aHrEMHooACrXKaeRK8SjAGjYTrgze_kDtLwBqF0Y-4yzhYNr77DRrEfg6bADPFli2kcqq0pfLw')">
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface-container-low to-transparent"></div>
+                </div>
+                <div class="about-content font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    <h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary">تاریخچه سام ایمن ویستا</h1>
+                    <p>سام ایمن ویستا با رویکردی تخصصی در حوزه طراحی، تجهیز و تأمین خودروها و تجهیزات مورد استفاده در
+                        بخش‌های امدادی، آتش‌نشانی و خدمات شهری شکل گرفته است. این مجموعه با تمرکز بر نیازهای تخصصی
+                        سازمان‌ها، نهادهای خدمات‌رسان و مجموعه‌های عملیاتی، فعالیت خود را بر ارائه راهکارهایی کاربردی،
+                        ایمن و متناسب با شرایط واقعی مأموریت‌های شهری و صنعتی بنا نهاده است.</p>
+
+                    <p>در مسیر توسعه فعالیت‌های سام ایمن ویستا، یکی از محورهای اصلی مجموعه، تأمین و تجهیز خودروهای تخصصی
+                        آتش‌نشانی بوده است. از خودروهای سبک پیشرو و امداد و نجات گرفته تا خودروهای سنگین آتش‌نشانی،
+                        خودروهای مخصوص عملیات فرودگاهی، خودروهای نوررسان، خودروهای پودرپاش، قطار آتش‌نشانی و کانکس‌های
+                        تخصصی، این مجموعه تلاش کرده است طیف متنوعی از نیازهای عملیاتی حوزه ایمنی و مقابله با حوادث را
+                        پوشش دهد.</p>
+                    <p>
+                        در ادامه، توسعه سبد محصولات در حوزه آمبولانس و خودروهای امدادی نیز به یکی از بخش‌های مهم فعالیت
+                        سام ایمن ویستا تبدیل شد. طراحی و تجهیز انواع آمبولانس بر پایه شاسی‌های مختلف، خودروهای امدادی دو
+                        دیفرانسیل، آمبولانس‌های سقف بلند و نیمه‌بلند، اتوبوس آمبولانس سیار، خودروهای حمل متوفی و همچنین
+                        خودروهای درمانگاه سیار، بخشی از ظرفیت این مجموعه در حوزه خدمات پزشکی و امدادی است. در این بخش،
+                        توجه به جانمایی تجهیزات، الزامات عملیاتی و فراهم‌کردن محیطی مناسب برای ارائه خدمات امدادی، از
+                        اصول اساسی مجموعه به شمار می‌رود.
+                    </p>
+                    <p>
+                        یکی دیگر از حوزه‌های فعالیت سام ایمن ویستا، خودروهای تخصصی خدمات شهری است. این بخش با هدف
+                        پاسخ‌گویی به نیاز سازمان‌ها و مجموعه‌های خدمات‌رسان شهری توسعه یافته و طیف متنوعی از خودروها، از
+                        وانت‌های عملیاتی تا خودروهای سنگین خدمات شهری را در بر می‌گیرد.
+                    </p>
+                    <p>در کنار طراحی و تجهیز خودروهای تخصصی، سام ایمن ویستا در زمینه پمپ‌های تخصصی آتش‌نشانی نیز فعالیت
+                        دارد. مدل‌هایی همچون IFP 1500، IFP 3000 و IFP 6500 با بهره‌گیری از ساختارهای مهندسی‌شده و قطعات
+                        متناسب با الزامات عملکردی، برای استفاده در سامانه‌های پمپاژ و عملیات آتش‌نشانی در نظر گرفته
+                        شده‌اند. توجه به جزئیات فنی، جنس و استاندارد قطعات، عملکرد سیستم پرایمر و قابلیت تأمین فشار و
+                        دبی مورد نیاز، از جمله موضوعات مورد توجه در این بخش است.</p>
+                    <p>
+                        سام ایمن ویستا در مسیر فعالیت خود، نگاه خود را صرفاً به تأمین یک محصول محدود نکرده و تلاش کرده
+                        است راهکار متناسب با مأموریت و نیاز مشتری ارائه دهد؛ چرا که در حوزه ایمنی و امداد، کیفیت تجهیزات
+                        تنها یک ویژگی تجاری نیست، بلکه مستقیماً با سرعت، قابلیت اطمینان و اثربخشی عملیات ارتباط دارد.
+                    </p>
+                    <p>سام ایمن ویستا؛ تخصص، ایمنی و اعتماد در خدمت مأموریت‌های حیاتی.</p>
+                </div>
+            </section>
+
+            <!-- Mission & Vision -->
+            <section class="flex flex-col sm:flex-row gap-stack-md">
+                <div class="flex-1 flex flex-col gap-stack-sm bg-primary-container text-on-primary-container p-6 rounded-xl shadow-md relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 opacity-10">
+                        <span class="material-symbols-outlined text-[120px]">verified_user</span>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2 relative z-10">
+                        <span class="material-symbols-outlined text-tertiary-fixed">flag</span>
+                        <h2 class="font-headline-md text-headline-md">ماموریت ما</h2>
+                    </div>
+                    <p class="font-body-md text-body-md relative z-10">
+                        تعهد به ایمنی و کیفیت در بالاترین سطح. ما در سام ایمن ویستا می‌کوشیم تا با ارائه محصولات ایمن،
+                        کارآمد و بادوام، نقشی کلیدی در ارتقای زیرساخت‌های امدادی و خدمات شهری ایفا کنیم.
+                    </p>
+                </div>
+                <div class="flex-1 flex flex-col gap-stack-sm bg-surface-container text-on-surface p-6 rounded-xl shadow-sm relative overflow-hidden">
+                    <div class="absolute -left-4 -bottom-4 opacity-5">
+                        <span class="material-symbols-outlined text-[120px]">visibility</span>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2 relative z-10">
+                        <span class="material-symbols-outlined text-primary">trending_up</span>
+                        <h2 class="font-headline-md text-headline-md">چشم‌انداز</h2>
+                    </div>
+                    <p class="font-body-md text-body-md text-on-surface-variant relative z-10">
+                        تبدیل شدن به مرجع اصلی و انتخاب اول در خاورمیانه برای تامین تجهیزات ایمنی و آتش‌نشانی، با تکیه
+                        بر فناوری‌های نوین و توسعه پایدار.
+                    </p>
+                </div>
+            </section>
+        </div>
+    </main>
+    </body>
+{% endblock %}
+

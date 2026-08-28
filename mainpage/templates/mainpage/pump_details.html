@@ -1,0 +1,897 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block style %}
+    <style>
+        /* ===== RESET & BASE FIX ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            overscroll-behavior: auto;
+            position: relative;
+            background: #f7f9fc;
+            font-family: 'Vazirmatn', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        .pt-safe {
+            padding-top: env(safe-area-inset-top, 0px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 0;
+            height: 0;
+            background: transparent;
+            display: none;
+        }
+
+        * {
+            scrollbar-width: none;
+        }
+
+        /* Hide scrollbar for carousel */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Snap for carousel */
+        .snap-x {
+            scroll-snap-type: x mandatory;
+        }
+        .snap-center {
+            scroll-snap-align: center;
+        }
+        .snap-mandatory {
+            scroll-snap-type: x mandatory;
+        }
+
+        .bg-background {
+            background-color: #f7f9fc;
+        }
+        .bg-surface {
+            background-color: #f7f9fc;
+        }
+        .bg-surface-container {
+            background-color: #eceef1;
+        }
+        .bg-surface-container-low {
+            background-color: #f2f4f7;
+        }
+        .bg-surface-container-highest {
+            background-color: #e0e3e6;
+        }
+        .bg-surface\/80 {
+            background-color: rgba(247, 249, 252, 0.8);
+        }
+        .bg-surface\/90 {
+            background-color: rgba(247, 249, 252, 0.9);
+        }
+        .bg-primary {
+            background-color: #af101a;
+        }
+        .bg-tertiary {
+            background-color: #705d00;
+        }
+        .bg-white {
+            background-color: #ffffff;
+        }
+        .bg-white\/50 {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        .bg-black\/50 {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .bg-black\/90 {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .text-on-background {
+            color: #191c1e;
+        }
+        .text-on-surface {
+            color: #191c1e;
+        }
+        .text-on-surface-variant {
+            color: #5b403d;
+        }
+        .text-primary {
+            color: #af101a;
+        }
+        .text-on-primary {
+            color: #ffffff;
+        }
+        .text-on-tertiary {
+            color: #ffffff;
+        }
+
+        .border-surface-variant {
+            border-color: #e4beba;
+        }
+        .border-surface-variant\/30 {
+            border-color: rgba(228, 190, 186, 0.3);
+        }
+
+        .shadow-sm {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+        .shadow-md {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .shadow-xl {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .backdrop-blur-md {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .backdrop-blur-xl {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .sticky {
+            position: sticky;
+        }
+        .bottom-0 {
+            bottom: 0;
+        }
+        .fixed {
+            position: fixed;
+        }
+        .top-0 {
+            top: 0;
+        }
+        .w-full {
+            width: 100%;
+        }
+        .z-50 {
+            z-index: 50;
+        }
+        .z-20 {
+            z-index: 20;
+        }
+        .z-10 {
+            z-index: 10;
+        }
+        .z-[999] {
+            z-index: 999;
+        }
+        .relative {
+            position: relative;
+        }
+        .absolute {
+            position: absolute;
+        }
+        .inset-0 {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        .left-0 {
+            left: 0;
+        }
+        .right-0 {
+            right: 0;
+        }
+        .h-16 {
+            height: 64px;
+        }
+        .h-80 {
+            height: 320px;
+        }
+        .h-full {
+            height: 100%;
+        }
+        .min-h-screen {
+            min-height: 100vh;
+        }
+        .px-margin-mobile {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+        .py-4 {
+            padding-top: 16px;
+            padding-bottom: 16px;
+        }
+        .p-margin-mobile {
+            padding: 16px;
+        }
+        .p-3 {
+            padding: 12px;
+        }
+        .pt-4 {
+            padding-top: 16px;
+        }
+        .pt-16 {
+            padding-top: 64px;
+        }
+        .pb-safe {
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+        .gap-2 {
+            gap: 8px;
+        }
+        .gap-4 {
+            gap: 16px;
+        }
+        .gap-stack-md {
+            gap: 16px;
+        }
+        .gap-stack-sm {
+            gap: 8px;
+        }
+        .flex {
+            display: flex;
+        }
+        .flex-col {
+            flex-direction: column;
+        }
+        .flex-row {
+            flex-direction: row;
+        }
+        .items-center {
+            align-items: center;
+        }
+        .justify-between {
+            justify-content: space-between;
+        }
+        .justify-center {
+            justify-content: center;
+        }
+        .self-start {
+            align-self: flex-start;
+        }
+        .flex-none {
+            flex: none;
+        }
+        .w-8 {
+            width: 32px;
+        }
+        .w-11 {
+            width: 44px;
+        }
+        .h-11 {
+            height: 44px;
+        }
+        .h-8 {
+            height: 32px;
+        }
+        .w-2 {
+            width: 8px;
+        }
+        .h-2 {
+            height: 8px;
+        }
+        .rounded-full {
+            border-radius: 9999px;
+        }
+        .rounded-lg {
+            border-radius: 8px;
+        }
+        .rounded-xl {
+            border-radius: 12px;
+        }
+        .object-cover {
+            object-fit: cover;
+        }
+        .object-contain {
+            object-fit: contain;
+        }
+        .bg-cover {
+            background-size: cover;
+        }
+        .bg-center {
+            background-position: center;
+        }
+        .text-justify {
+            text-align: justify;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .whitespace-nowrap {
+            white-space: nowrap;
+        }
+        .overflow-hidden {
+            overflow: hidden;
+        }
+        .overflow-x-auto {
+            overflow-x: auto;
+        }
+        .transition-all {
+            transition-property: all;
+            transition-duration: 300ms;
+        }
+        .transition-transform {
+            transition-property: transform;
+            transition-duration: 150ms;
+        }
+        .active\:scale-95:active {
+            transform: scale(0.95);
+        }
+        .hover\:bg-primary\/90:hover {
+            background-color: rgba(175, 16, 26, 0.9);
+        }
+        .border-t {
+            border-top-width: 1px;
+            border-top-style: solid;
+        }
+        .shadow-\[0_-4px_16px_rgba\(0\,0\,0\,0\.05\)\] {
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+        }
+        .leading-relaxed {
+            line-height: 1.625;
+        }
+        .cursor-pointer {
+            cursor: pointer;
+        }
+
+        .font-headline-lg-mobile {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+        }
+        .text-headline-lg-mobile {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+        }
+        .font-headline-md {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+        }
+        .text-headline-md {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 32px;
+        }
+        .font-body-md {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+        }
+        .text-body-md {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+        }
+        .font-label-md {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+        .text-label-md {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+        .font-label-lg {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+            letter-spacing: 0.02em;
+        }
+        .text-label-lg {
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 20px;
+            letter-spacing: 0.02em;
+        }
+        .font-bold {
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+        }
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+        .sm\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        /* ===== LIGHTBOX / MODAL ===== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: #ffffff;
+            font-size: 36px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-family: 'Vazirmatn', sans-serif;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ffffff;
+            font-size: 40px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .lightbox-nav.prev {
+            left: 20px;
+        }
+
+        .lightbox-nav.next {
+            right: 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 28px;
+            }
+            .lightbox-nav.prev {
+                left: 8px;
+            }
+            .lightbox-nav.next {
+                right: 8px;
+            }
+            .lightbox-close {
+                top: 12px;
+                right: 12px;
+                font-size: 28px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (min-width: 640px) {
+            .sm\:flex-row {
+                flex-direction: row;
+            }
+            .sm\:items-center {
+                align-items: center;
+            }
+            .sm\:w-1\/2 {
+                width: 50%;
+            }
+            .sm\:gap-4 {
+                gap: 16px;
+            }
+            .sm\:self-auto {
+                align-self: auto;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .md\:flex-row {
+                flex-direction: row;
+            }
+        }
+    </style>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed-dim": "#ffb3ac",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#ffe170",
+                        "surface-tint": "#ba1a20",
+                        "primary": "#af101a",
+                        "primary-container": "#d32f2f",
+                        "on-primary-container": "#fff2f0",
+                        "on-primary-fixed": "#410003",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-fixed": "#101c2b",
+                        "surface-bright": "#f7f9fc",
+                        "primary-fixed": "#ffdad6",
+                        "secondary-container": "#d4e1f5",
+                        "on-secondary-container": "#576474",
+                        "surface-container-highest": "#e0e3e6",
+                        "surface-dim": "#d8dadd",
+                        "on-surface-variant": "#5b403d",
+                        "on-background": "#191c1e",
+                        "surface-container-low": "#f2f4f7",
+                        "secondary-fixed": "#d7e3f7",
+                        "on-error": "#ffffff",
+                        "inverse-primary": "#ffb3ac",
+                        "error": "#ba1a1a",
+                        "secondary": "#535f70",
+                        "secondary-fixed-dim": "#bbc7db",
+                        "outline-variant": "#e4beba",
+                        "tertiary-container": "#caa900",
+                        "tertiary-fixed-dim": "#e9c400",
+                        "background": "#f7f9fc",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface": "#f7f9fc",
+                        "on-surface": "#191c1e",
+                        "outline": "#8f6f6c",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f4",
+                        "surface-container-high": "#e6e8eb",
+                        "on-tertiary-fixed-variant": "#544600",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#221b00",
+                        "on-tertiary-container": "#4c3f00",
+                        "on-secondary-fixed-variant": "#3c4858",
+                        "surface-variant": "#e0e3e6",
+                        "surface-container": "#eceef1",
+                        "tertiary": "#705d00",
+                        "on-primary-fixed-variant": "#930010"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        base: "8px",
+                        "container-max": "1280px",
+                        "margin-mobile": "16px",
+                        gutter: "24px",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "margin-desktop": "48px",
+                        "stack-md": "16px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Vazirmatn"],
+                        "headline-lg-mobile": ["Vazirmatn"],
+                        "headline-md": ["Vazirmatn"],
+                        "label-lg": ["Vazirmatn"],
+                        "body-lg": ["Vazirmatn"],
+                        "headline-lg": ["Vazirmatn"],
+                        "body-md": ["Vazirmatn"],
+                        "label-md": ["Vazirmatn"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", {lineHeight: "64px", fontWeight: "800"}],
+                        "headline-lg-mobile": ["24px", {lineHeight: "32px", fontWeight: "700"}],
+                        "headline-md": ["24px", {lineHeight: "32px", fontWeight: "700"}],
+                        "label-lg": ["14px", {lineHeight: "20px", letterSpacing: "0.02em", fontWeight: "700"}],
+                        "body-lg": ["18px", {lineHeight: "28px", fontWeight: "400"}],
+                        "headline-lg": ["32px", {lineHeight: "44px", fontWeight: "700"}],
+                        "body-md": ["16px", {lineHeight: "24px", fontWeight: "400"}],
+                        "label-md": ["12px", {lineHeight: "16px", fontWeight: "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe">
+        <div class="h-16 px-margin-mobile flex items-center justify-between gap-stack-md">
+            <div class="flex items-center gap-stack-sm">
+                <button class="w-11 h-11 flex items-center justify-center text-on-surface" onclick="history.back()">
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+                <span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">جزئیات محصول</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex flex-col relative w-full pt-16 bg-surface">
+        <div class="flex flex-col w-full bg-surface">
+            <!-- Image Gallery Carousel -->
+            <div class="relative w-full h-80 overflow-hidden bg-surface-container-highest">
+                <div class="flex w-full h-full overflow-x-auto snap-x snap-mandatory hide-scrollbar" id="gallery-carousel">
+                    <!-- تصویر اصلی - قابل کلیک -->
+                    <div class="flex-none w-full h-full bg-cover bg-center snap-center relative cursor-pointer"
+                         style="background-image: url('{{ pump_details.image_title.url }}');"
+                         onclick="openLightbox(0)">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                        <!-- آیکون بزرگنمایی -->
+                        <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                            <span class="material-symbols-outlined text-white text-5xl bg-black/30 rounded-full p-3">zoom_in</span>
+                        </div>
+                    </div>
+                    <!-- تصاویر اضافی - قابل کلیک -->
+                    {% if pump_details.img.all %}
+                        {% for image in pump_details.img.all %}
+                            <div class="flex-none w-full h-full bg-cover bg-center snap-center relative cursor-pointer"
+                                 style="background-image: url('{{ image.image.url }}');"
+                                 onclick="openLightbox({{ forloop.counter }})">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                                <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                    <span class="material-symbols-outlined text-white text-5xl bg-black/30 rounded-full p-3">zoom_in</span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <!-- Carousel Controls -->
+                <div class="absolute bottom-margin-mobile left-0 right-0 flex justify-center gap-2 z-10" id="carousel-indicators">
+                    <button aria-label="Go to slide 1" class="w-2 h-2 rounded-full bg-white transition-all duration-300"></button>
+                    {% if pump_details.img.all %}
+                        {% for image in pump_details.img.all %}
+                            <button aria-label="Go to slide {{ forloop.counter|add:1 }}" class="w-2 h-2 rounded-full bg-white/50 transition-all duration-300"></button>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Product Header -->
+            <div class="p-margin-mobile bg-surface text-on-surface">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 mb-2">
+                    <h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface">{{ pump_details.pump_model }}</h1>
+                    <span class="inline-flex self-start sm:self-auto items-center px-2 py-1 rounded bg-tertiary text-on-tertiary font-label-md text-label-md whitespace-nowrap">پمپ آتش‌نشانی</span>
+                </div>
+                <p class="font-body-md text-body-md text-on-surface-variant">{{ pump_details.description|truncatewords:20 }}</p>
+            </div>
+
+            <!-- Specifications Table (Dynamic) -->
+            <div class="px-margin-mobile py-4 bg-surface">
+                <h2 class="font-headline-md text-headline-md text-on-surface mb-4">مشخصات فنی</h2>
+                <div class="bg-surface-container rounded-lg overflow-hidden flex flex-col">
+                    {% with specs=pump_details.get_active_specs %}
+                        {% if specs %}
+                            {% for spec in specs %}
+                                <div class="flex flex-col sm:flex-row p-3 gap-1 sm:gap-4 {% if forloop.counter|divisibleby:2 %}bg-surface-container-low{% else %}bg-surface{% endif %} text-on-surface">
+                                    <div class="w-full sm:w-1/2 font-label-lg text-label-lg font-bold">{{ spec.key }}</div>
+                                    <div class="w-full sm:w-1/2 font-body-md text-body-md">{{ spec.value }}</div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="flex flex-col sm:flex-row p-3 gap-1 sm:gap-4 bg-surface text-on-surface">
+                                <div class="w-full font-body-md text-body-md text-center">مشخصات فنی برای این پمپ ثبت نشده است.</div>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+            </div>
+
+            <!-- Detailed Description -->
+            {% if pump_details.description %}
+                <div class="px-margin-mobile py-4 bg-surface text-on-surface">
+                    <h2 class="font-headline-md text-headline-md mb-4">توضیحات تکمیلی</h2>
+                    <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed text-justify">
+                        {{ pump_details.description|linebreaks }}
+                    </p>
+                </div>
+            {% endif %}
+
+            <!-- Fixed Bottom Action Bar -->
+            <div class="sticky bottom-0 w-full bg-surface/90 backdrop-blur-md pb-safe pt-4 px-margin-mobile z-20 flex justify-center shadow-[0_-4px_16px_rgba(0,0,0,0.05)] border-t border-surface-variant/30">
+                <button class="w-full bg-primary text-on-primary py-3.5 px-6 rounded-xl font-label-lg text-label-lg flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-md">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">headset_mic</span>
+                    درخواست مشاوره فنی
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== LIGHTBOX / MODAL ===== -->
+        <div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+            <button class="lightbox-close" onclick="closeLightbox(event)">✕</button>
+            <button class="lightbox-nav prev" onclick="navigateLightbox(-1, event)">‹</button>
+            <button class="lightbox-nav next" onclick="navigateLightbox(1, event)">›</button>
+            <img id="lightbox-image" src="" alt="تصویر بزرگ">
+            <div class="lightbox-counter" id="lightbox-counter">1 / 1</div>
+        </div>
+        <br><br><br><br>
+        <script>
+            // ===== داده‌های تصاویر =====
+            const images = [
+                '{{ pump_details.image_title.url }}',
+                {% if pump_details.img.all %}
+                    {% for image in pump_details.img.all %}
+                        '{{ image.image.url }}',
+                    {% endfor %}
+                {% endif %}
+            ];
+
+            let currentIndex = 0;
+
+            // ===== باز کردن لایت‌باکس =====
+            function openLightbox(index) {
+                currentIndex = index;
+                const lightbox = document.getElementById('lightbox');
+                const img = document.getElementById('lightbox-image');
+                const counter = document.getElementById('lightbox-counter');
+
+                img.src = images[currentIndex];
+                counter.textContent = (currentIndex + 1) + ' / ' + images.length;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // ===== بستن لایت‌باکس =====
+            function closeLightbox(event) {
+                if (event) {
+                    event.stopPropagation();
+                }
+                const lightbox = document.getElementById('lightbox');
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            // ===== حرکت بین تصاویر =====
+            function navigateLightbox(direction, event) {
+                if (event) {
+                    event.stopPropagation();
+                }
+
+                currentIndex = (currentIndex + direction + images.length) % images.length;
+                const img = document.getElementById('lightbox-image');
+                const counter = document.getElementById('lightbox-counter');
+
+                img.src = images[currentIndex];
+                counter.textContent = (currentIndex + 1) + ' / ' + images.length;
+            }
+
+            // ===== کیبورد =====
+            document.addEventListener('keydown', function(event) {
+                const lightbox = document.getElementById('lightbox');
+                if (!lightbox.classList.contains('active')) return;
+
+                if (event.key === 'Escape') {
+                    closeLightbox(event);
+                } else if (event.key === 'ArrowRight') {
+                    navigateLightbox(1, event);
+                } else if (event.key === 'ArrowLeft') {
+                    navigateLightbox(-1, event);
+                }
+            });
+
+            // ===== اسکرول کاروسل و نشانگرها =====
+            document.addEventListener('DOMContentLoaded', () => {
+                const carousel = document.getElementById('gallery-carousel');
+                const indicators = document.querySelectorAll('#carousel-indicators button');
+
+                if (!carousel || indicators.length === 0) return;
+
+                let isScrolling = false;
+
+                carousel.addEventListener('scroll', () => {
+                    if (!isScrolling) {
+                        window.requestAnimationFrame(() => {
+                            const index = Math.round(carousel.scrollLeft / carousel.offsetWidth);
+                            updateIndicators(index);
+                            isScrolling = false;
+                        });
+                        isScrolling = true;
+                    }
+                }, { passive: true });
+
+                indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => {
+                        carousel.scrollTo({
+                            left: index * carousel.offsetWidth,
+                            behavior: 'smooth'
+                        });
+                    });
+                });
+
+                function updateIndicators(activeIndex) {
+                    const normalizedIndex = Math.abs(activeIndex);
+                    indicators.forEach((ind, i) => {
+                        if (i === normalizedIndex) {
+                            ind.classList.remove('bg-white/50');
+                            ind.classList.add('bg-white');
+                        } else {
+                            ind.classList.add('bg-white/50');
+                            ind.classList.remove('bg-white');
+                        }
+                    });
+                }
+            });
+        </script>
+    </main>
+{% endblock %}
