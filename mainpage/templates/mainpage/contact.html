@@ -483,7 +483,7 @@
                         <span class="material-symbols-outlined text-[32px]">location_on</span>
                     </div>
                     <h3 class="font-headline-md text-headline-md text-on-surface">آدرس کارخانه</h3>
-                    <p class="font-body-md text-body-md text-on-surface-variant mt-stack-sm">تهران</p>
+                    <p class="font-body-md text-body-md text-on-surface-variant mt-stack-sm">تهران، جاده ساوه، شهرک صنعتی قلعه میر، صنعت ۸، کوچه صبا، پلاک ۱۰</p>
                 </div>
 
                 <!-- Phone Card -->
@@ -601,25 +601,31 @@
                         </div>
                     </form>
                 </div>
-
-                <!-- Map Container -->
-                <div class="rounded-xl overflow-hidden shadow-sm h-[400px] lg:h-auto min-h-[400px] relative group border border-surface-variant w-full">
-                    <div class="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAOIVYu1t239wW2H5nAuj7vsfxpaHSP1xuP_Q-LbGHww_eMgTbj1SVR3t172G2HqpfbOvQcUElq7_pLXA7K1ncrhanfyThW4pI6ulEIhpJmPx59iPxT--0Y6KDPEcJOlosgdHl3Ot1vqWRLwQeYbG8Di1UrjIE6XnCjETZyv4EcdCqw3jE7fW8MsdVU6W-yK_O5JiLVp3ijiFmC2XpYdGxy65iHaDqjCFADliPbTfsiiUf-qvdK-p-yKA')"></div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-surface-container-highest/80 to-transparent flex flex-col justify-end p-margin-mobile pointer-events-none">
-                        <div class="bg-surface/95 backdrop-blur-sm p-4 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-3 border border-surface-variant/50 pointer-events-auto shadow-md">
-                            <div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0">
-                                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">directions</span>
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="font-label-lg text-label-lg text-on-surface font-bold">مسیریابی به کارخانه</span>
-                                <a class="font-label-md text-label-md text-primary hover:underline" href="#">باز کردن در Google Maps</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!-- Map Container -->
+<div class="rounded-xl overflow-hidden shadow-sm h-[400px] lg:h-auto min-h-[400px] relative group border border-surface-variant w-full">
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1484.4962052144585!2d51.14691094680518!3d35.504399025523895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f9209e7f902fb4f%3A0xcce29ed04035d0c4!2z2LXZhtin24zYuSDZhdmB2KrZiNmE24wg2YXZgtiv2YU!5e0!3m2!1sfa!2s!4v1788072646397!5m2!1sfa!2s"
+        style="border:0; position:absolute; top:0; left:0; width:100%; height:100%;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+    <div class="absolute inset-0 bg-gradient-to-t from-surface-container-highest/80 via-transparent to-transparent flex flex-col justify-end p-margin-mobile pointer-events-none">
+        <div class="bg-surface/95 backdrop-blur-sm p-4 rounded-lg flex flex-col sm:flex-row items-start sm:items-center gap-3 border border-surface-variant/50 pointer-events-auto shadow-md">
+            <div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">directions</span>
+            </div>
+            <div class="flex flex-col">
+                <span class="font-label-lg text-label-lg text-on-surface font-bold">مسیریابی به کارخانه</span>
+                <a class="font-label-md text-label-md text-primary hover:underline" href="https://www.google.com/maps/dir/?api=1&destination=35.504399025523895,51.14691094680518" target="_blank" rel="noopener noreferrer">
+                    باز کردن در Google Maps
+                </a>
             </div>
         </div>
     </div>
+</div>
+            </div>
+        </div>
 </main>
 
 <script>
