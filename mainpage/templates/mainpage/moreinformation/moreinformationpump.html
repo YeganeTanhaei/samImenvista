@@ -295,54 +295,61 @@
 {% endblock %}
 
 {% block content %}
-<body class="bg-background font-body-md text-on-background">
-<!-- MAIN CONTENT -->
-<main>
-    <div class="flex flex-col w-full px-margin-mobile py-stack-md gap-stack-lg max-w-[1280px] mx-auto">
+    <body class="bg-background font-body-md text-on-background">
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="flex flex-col w-full px-margin-mobile py-stack-md gap-stack-lg max-w-[1280px] mx-auto">
 
-        <div class="flex flex-col gap-stack-sm">
-            <h1 class="font-headline-lg-mobile text-on-background">محصولات ما</h1>
-            <p class="font-body-md text-on-surface-variant">پمپ‌های آتش‌نشانی</p>
-        </div>
+            <div class="flex flex-col gap-stack-sm">
+                <h1 class="font-headline-lg-mobile text-on-background">محصولات ما</h1>
+                <p class="font-body-md text-on-surface-variant">پمپ‌های آتش‌نشانی</p>
+            </div>
 
-        <!-- Category Filters -->
-        <div class="flex gap-stack-sm overflow-x-auto pb-stack-sm -mx-margin-mobile px-margin-mobile snap-x scroll-pl-margin-mobile hide-scrollbar md:mx-0 md:px-0">
-            <a href="{% url 'information_fire' %}"><button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface font-label-md whitespace-nowrap transition-colors hover:bg-surface-container-low hover:border-outline">
-                آتش‌نشانی
-            </button></a>
-            <a href="{% url 'all_ambulance' %}"><button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface font-label-md whitespace-nowrap transition-colors hover:bg-surface-container-low hover:border-outline">
-                آمبولانس
-            </button></a>
-            <a href="{% url 'own_municipality' %}"><button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface font-label-md whitespace-nowrap transition-colors hover:bg-surface-container-low hover:border-outline">
-                خدمات شهری
-            </button></a>
-            <a href="{% url 'my_pump' %}"><button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface font-label-md whitespace-nowrap transition-colors hover:bg-surface-container-low hover:border-outline">
-                پمپ
-            </button></a>
-        </div>
+            <!-- Category Filters -->
+            <div class="flex gap-stack-sm overflow-x-auto pb-stack-sm -mx-margin-mobile px-margin-mobile snap-x scroll-pl-margin-mobile hide-scrollbar md:mx-0 md:px-0">
+                <a href="{% url 'information_fire' %}">
+                    <button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface font-label-md whitespace-nowrap transition-colors hover:bg-surface-container-low hover:border-outline">
+                        آتش‌نشانی
+                    </button>
+                </a>
+                <a href="{% url 'all_ambulance' %}">
+                    <button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface font-label-md whitespace-nowrap transition-colors hover:bg-surface-container-low hover:border-outline">
+                        آمبولانس
+                    </button>
+                </a>
+                <a href="{% url 'own_municipality' %}">
+                    <button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface font-label-md whitespace-nowrap transition-colors hover:bg-surface-container-low hover:border-outline">
+                        خدمات شهری
+                    </button>
+                </a>
+                <a href="{% url 'my_pump' %}">
+                    <button class="snap-start shrink-0 px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface font-label-md whitespace-nowrap transition-colors hover:bg-surface-container-low hover:border-outline">
+                        پمپ
+                    </button>
+                </a>
+            </div>
 
-        <!-- Products Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-stack-md sm:gap-gutter">
-            <!-- Product Card  -->
-            {% for pump in pump_info %}
-                <article
-                        class="flex flex-col bg-surface rounded-xl overflow-hidden shadow-md group hover:shadow-lg transition-shadow cursor-pointer">
-                    <div class="w-full h-48 md:h-56 overflow-hidden relative">
-                        <a href="{{ pump.get_absolute_url }}">
-                            <img src="{{ pump.image_title.url }}"
-                                 alt="Team Image"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-                        </a>
-                    </div>
-                    <div class="p-4 bg-inverse-surface text-inverse-on-surface flex flex-col gap-1 relative z-10">
-                        <h3 class="font-headline-lg-mobile md:font-headline-md text-headline-lg-mobile md:text-headline-md truncate">
-                            <a href="{{ pump.get_absolute_url }}">{{ pump.pump_model }}</a>
-                        </h3>
-                    </div>
-                </article>
-            {% endfor %}
+            <!-- Products Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-gutter">
+                {% for pump in pump_info %}
+                    <article
+                            class="flex flex-col bg-surface rounded-xl overflow-hidden shadow-md group hover:shadow-lg transition-shadow cursor-pointer">
+                        <div class="w-full h-32 sm:h-48 md:h-56 overflow-hidden relative">
+                            <a href="{{ pump.get_absolute_url }}">
+                                <img src="{{ pump.image_title.url }}"
+                                     alt="Team Image"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                            </a>
+                        </div>
+                        <div class="p-2 sm:p-4 bg-inverse-surface text-inverse-on-surface flex flex-col gap-1 relative z-10">
+                            <h3 class="text-sm sm:text-base md:text-headline-md font-bold truncate">
+                                <a href="{{ pump.get_absolute_url }}">{{ pump.pump_model }}</a>
+                            </h3>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
         </div>
-    </div>
-</main>
-</body>
+    </main>
+    </body>
 {% endblock %}
