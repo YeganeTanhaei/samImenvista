@@ -320,76 +320,71 @@
                     پمپ
                 </button>
             </div>
-
             <!-- Products Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-stack-md sm:gap-gutter">
+            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-gutter">
                 <!-- Product Card  -->
                 {% for firevehicl in fire_vehicles %}
                     <article
                             class="flex flex-col bg-surface rounded-xl overflow-hidden shadow-md group hover:shadow-lg transition-shadow cursor-pointer">
-                        <div class="w-full h-48 md:h-56 overflow-hidden relative">
+                        <div class="w-full h-32 sm:h-48 md:h-56 overflow-hidden relative">
                             <a href="{{ firevehicl.get_absolute_url }}">
-                                <img src="{{ firevehicl.image_title.url }}"
-                                     alt="Team Image"
+                                <img src="{{ firevehicl.image_title.url }}" alt="Team Image"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                             </a>
                         </div>
-                        <div class="p-4 bg-inverse-surface text-inverse-on-surface flex flex-col gap-1 relative z-10">
-                            <h3 class="font-headline-lg-mobile md:font-headline-md text-headline-lg-mobile md:text-headline-md truncate">
+                        <div class="p-2 sm:p-4 bg-inverse-surface text-inverse-on-surface flex flex-col gap-1 relative z-10">
+                            <h3 class="text-sm sm:text-base md:text-headline-md font-bold truncate">
                                 <a href="{{ firevehicl.get_absolute_url }}">{{ firevehicl.chassis }}</a>
                             </h3>
                         </div>
                     </article>
                 {% endfor %}
-                <!-- Product Card  -->
+
                 {% for ambulance in all_ambulance %}
                     <article
                             class="flex flex-col bg-surface rounded-xl overflow-hidden shadow-md group hover:shadow-lg transition-shadow cursor-pointer">
-                        <div class="w-full h-48 md:h-56 overflow-hidden relative">
+                        <div class="w-full h-32 sm:h-48 md:h-56 overflow-hidden relative">
                             <a href="{{ ambulance.get_absolute_url }}">
-                                <img src="{{ ambulance.image_title.url }}"
-                                     alt="Team Image"
+                                <img src="{{ ambulance.image_title.url }}" alt="Team Image"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                             </a>
                         </div>
-                        <div class="p-4 bg-inverse-surface text-inverse-on-surface flex flex-col gap-1 relative z-10">
-                            <h3 class="font-headline-lg-mobile md:font-headline-md text-headline-lg-mobile md:text-headline-md truncate">
+                        <div class="p-2 sm:p-4 bg-inverse-surface text-inverse-on-surface flex flex-col gap-1 relative z-10">
+                            <h3 class="text-sm sm:text-base md:text-headline-md font-bold truncate">
                                 <a href="{{ ambulance.get_absolute_url }}">{{ ambulance.chassis }}</a>
                             </h3>
                         </div>
                     </article>
                 {% endfor %}
-                <!-- Product Card -->
+
                 {% for municipality in all_municipality %}
                     <article
                             class="flex flex-col bg-surface rounded-xl overflow-hidden shadow-md group hover:shadow-lg transition-shadow cursor-pointer">
-                        <div class="w-full h-48 md:h-56 overflow-hidden relative">
+                        <div class="w-full h-32 sm:h-48 md:h-56 overflow-hidden relative">
                             <a href="{{ municipality.get_absolute_url }}">
-                                <img src="{{ municipality.image_title.url }}"
-                                     alt="Team Image"
+                                <img src="{{ municipality.image_title.url }}" alt="Team Image"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                             </a>
                         </div>
-                        <div class="p-4 bg-inverse-surface text-inverse-on-surface flex flex-col gap-1 relative z-10">
-                            <h3 class="font-headline-lg-mobile md:font-headline-md text-headline-lg-mobile md:text-headline-md truncate">
+                        <div class="p-2 sm:p-4 bg-inverse-surface text-inverse-on-surface flex flex-col gap-1 relative z-10">
+                            <h3 class="text-sm sm:text-base md:text-headline-md font-bold truncate">
                                 <a href="{{ municipality.get_absolute_url }}">{{ municipality.chassis }}</a>
                             </h3>
                         </div>
                     </article>
                 {% endfor %}
-            <!-- Product Card -->
+
                 {% for pump in all_pump %}
                     <article
                             class="flex flex-col bg-surface rounded-xl overflow-hidden shadow-md group hover:shadow-lg transition-shadow cursor-pointer">
-                        <div class="w-full h-48 md:h-56 overflow-hidden relative">
+                        <div class="w-full h-32 sm:h-48 md:h-56 overflow-hidden relative">
                             <a href="{{ pump.get_absolute_url }}">
-                                <img src="{{ pump.image_title.url }}"
-                                     alt="Team Image"
+                                <img src="{{ pump.image_title.url }}" alt="Team Image"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                             </a>
                         </div>
-                        <div class="p-4 bg-inverse-surface text-inverse-on-surface flex flex-col gap-1 relative z-10">
-                            <h3 class="font-headline-lg-mobile md:font-headline-md text-headline-lg-mobile md:text-headline-md truncate">
+                        <div class="p-2 sm:p-4 bg-inverse-surface text-inverse-on-surface flex flex-col gap-1 relative z-10">
+                            <h3 class="text-sm sm:text-base md:text-headline-md font-bold truncate">
                                 <a href="{{ pump.get_absolute_url }}">{{ pump.pump_model }}</a>
                             </h3>
                         </div>
