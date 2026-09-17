@@ -19,12 +19,19 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.static import serve
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import StaticViewSitemap
+
+sitemaps = {
+    'static': StaticViewSitemap,
+}
 
 urlpatterns = [
-                  path('admin/', admin.site.urls),
-                  path('', include('mainpage.urls')),
-                  path('contactme/', include('contact.urls', namespace='contact')),
-                  path('media/<path:path>', serve, {
-                      'document_root': settings.MEDIA_ROOT
-                  }),
-              ]
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('admin/', admin.site.urls),
+    path('', include('mainpage.urls')),
+    path('contactme/', include('contact.urls', namespace='contact')),
+    path('media/<path:path>', serve, {
+        'document_root': settings.MEDIA_ROOT
+    }),
+]
